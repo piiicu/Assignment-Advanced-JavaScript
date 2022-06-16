@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="list"></div>
+    <script>
+      const listEl = document.getElementById("list");
+
+      async function getPerson() {
+        let response = await fetch(
+          "https://v-dresevic.github.io/Advanced-JavaScript-Programming/data/students.txt"
+        );
+        let text = await response.text();
+        const htmlText = getHtmlString(text);
+        listEl.insertAdjacentHTML("beforeend", htmlText);
+      }
+      getPerson();
+
+      function studentToHtml(name, address, phone, course) {
+        return `<p>Name: ${name} <br/> Address: ${address} <br> Phone: ${phone} <br> Course: ${course} </p>`;
+      }
+
+      function getHtmlString(text) {
+        let arr = text.split("\n");
+        let htmlString = " ";
+        
+        for (let i = 0; i < arr.length; i += 4) {
+          const asHtml = studentToHtml(
+            arr[i],
+            arr[i + 1],
+            arr[i + 2],
+            arr[i + 3]
+          );
+          
+          htmlString += asHtml;
+        }
+        return htmlString;
+      }
+    </script>
+  </body>
+</html>
